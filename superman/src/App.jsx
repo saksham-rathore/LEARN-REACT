@@ -1,63 +1,43 @@
-import { useState } from "react";
-import React from "react";
+import React, { useState } from "react";
 
 const App = () => {
   const [Add, setAdd] = useState("");
   const [Tasks, setTasks] = useState([]);
 
+  // Add Task
   const addtask = () => {
-    if (!Add) {
-      console.log("error");
-    }
-    console.log(Add);
+    if (Add === "") return;
+
+    setTasks([...Tasks, Add]); // 🔥 state update
+    setAdd(""); // input clear
   };
 
-  const Tasks = () => {
-    const updatedlist = [...Tasks, Add]
-    console.log(updatedlist)
-    return updatedlist;
-  }
-
-  ;
-
   return (
-    <div>
-      <div className="container">
-        <h1>To-Do List</h1>
+    <div className="container">
+      <h1>To-Do List</h1>
 
-        <div className="input-section">
-          <input
-            onChange={(e) => setAdd(e.target.value)}
-            type="text"
-            placeholder="Enter a new task"
-          />
-          <button onClick={addtask} className="add-btn">
-            Add Task
-          </button>
-          {Tasks! = [] && Tasks.map((data, i))}
-        </div>
+      <div className="input-section">
+        <input
+          type="text"
+          placeholder="Enter a new task"
+          value={Add}
+          onChange={(e) => setAdd(e.target.value)}
+        />
 
-        <div value={addtasks}>
-          <div className="task-list">
-            <div className="task">
-              <input type="checkbox" />
-              <span className="completed">go gym</span>
-              <button className="delete-btn">Delete</button>
-            </div>
+        <button onClick={addtask} className="add-btn">
+          Add Task
+        </button>
+      </div>
 
-            <div className="task">
-              <input type="checkbox" />
-              <span>Read a book</span>
-              <button className="delete-btn">Delete</button>
-            </div>
-
-            <div className="task">
-              <input type="checkbox" />
-              <span>Go for a walk</span>
-              <button className="delete-btn">Delete</button>
-            </div>
+      {/* ✅ Dynamic List */}
+      <div className="task-list">
+        {Tasks.map((task, index) => (
+          <div className="task" key={index}>
+            <input type="checkbox" />
+            <span>{task}</span>
+            <button className="delete-btn">Delete</button>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
