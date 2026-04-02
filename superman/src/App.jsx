@@ -2,12 +2,25 @@ import { useState } from "react";
 import React from "react";
 
 const App = () => {
-  const [Tasks, setTasks] = useState([]);
-  const [AddTask, setAddTask] = useState("");
+  const [Tasks, setTasks] = useState("");
+  const [AddTask, setAddTask] = useState([]);
 
   const addTask = () => {
-    setTasks([...tasks, task]);
+
+    setAddTask((AddTask) => {
+      const updatedlist = [...AddTask, Tasks]
+      console.log(updatedlist);
+      setTasks('');
+      return updatedlist
+    })
   };
+
+  function removelist(i) {
+    const updatedlistdata = AddTask.filter((elem, id) =>{
+      return i !== id;
+    })
+    setAddTask(updatedlistdata);
+  }
 
   return (
     <>
@@ -24,17 +37,32 @@ const App = () => {
                 <input
                   type="text"
                   placeholder="Enter your note"
+                  value={Tasks}
                   onChange={(e) => setTasks(e.target.value)}
                   className="border-2 rounded-xl w-100 mt-10 h-10"
                 />
                 <button
                   className="border-2 rounded-xl h-10 mx-10 w-30"
+                  onClick={addTask}
                 >
                   Add Note
                 </button>
               </div>
               <div className="border-2 rounded-xl w-100 mt-10 h-10">
-                {AddTask}
+                {AddTask!=[] && AddTask.map((data, i) => {
+                  return(
+                    <React.Fragment key={i}>
+                    <h1>
+                      <div>{data}</div>
+                      <div>
+                        <button onClick={() => removelist(i)}>
+                          Remove
+                        </button>
+                      </div>
+                    </h1>
+                    </React.Fragment>
+                  )
+                })}
               </div>
             </div>
           </div>
