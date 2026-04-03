@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react"
 import {TodoProvider} from "./Context"
 import React from "react";
-import {Todoform} from "./Component/Todoform"
-import {Todoitem} from "./Component/Todoitem"
+import {Todoform, Todoitem} from "./Component"
 
 
 const App = () => {
