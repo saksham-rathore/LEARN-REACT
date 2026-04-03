@@ -1,6 +1,11 @@
 import React from "react";
+import { useTodo } from "../Context";
 
 function TodoItem({ todo }) {
+    const [isTodoEditable, setisTodoEditable] = useState(false)
+    const [todoMsg, settodoMsg] = useState(todo.todo)
+    const {updateTode, deleteTodo, toggleCompleted} = useTodo
+
   return (
     <div
       className={`flex border border-black/10 rounded-lg px-3 py-1.5 gap-x-3 shadow-sm shadow-white/50 duration-300  text-black ${
