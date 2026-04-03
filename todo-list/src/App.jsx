@@ -1,9 +1,15 @@
 import { useState, useEffect } from "react"
 import {TodoProvider} from "./Context"
 import React from "react";
+import {Todoform} from "./Component/Todoform"
+import {Todoitem} from "./Component/Todoitem"
+
 
 const App = () => {
-  const [Todos, setTodos] = useState([])
+  const [Todos, setTodos] = useState(() => {
+    const todos = JSON.parse(localStorage.getItem("todos"))
+    return (todos && todos.length > 0) ? todos : []
+  })
 
   const addTodo = (todo) => {
     setTodos((prev) => [{id: Date.now(), ...todo}, ...prev])
@@ -22,16 +28,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    const todos = JSON.parse(localStorage.getItem("todos"))
-
-    if (todos && todos.length > 0){
-      setTodos(todos)
-    }
-  }, [])
-
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos))
-  }, [todos])
+    localStorage.setItem("todos", JSON.stringify(Todos))
+  }, [Todos])
   
   
 
@@ -42,9 +40,15 @@ const App = () => {
         <h1 className="text-2xl font-bold text-center mb-8 mt-2">
           Manage Your Todos
         </h1>
-        <div className="mb-4">{/* Todo form goes here */}</div>
+        <div className="mb-4">
+          <Todoform />
+        </div>
         <div className="flex flex-wrap gap-y-3">
-          {/*Loop and Add TodoItem here */}
+          {Todos.map((todo) => (
+            <div key={todo.id}>
+              <Todoitem todo={todo}/>
+            </div>
+          ))}
         </div>
       </div>
     </div>
