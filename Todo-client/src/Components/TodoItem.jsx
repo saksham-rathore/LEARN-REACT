@@ -1,12 +1,12 @@
 import React from "react";
-import { useTodo } from "../../../todo-list/src/Context";
+import { useTodo } from "../Context/ContextTodo";
 import { useState } from "react";
 
 function TodoItem({ todo }) {
   const [isTodoEditable, setisTodoEditable] = useState(false)
   const [TodoMsg, setTodoMsg] = useState(todo.todo)
 
-  const {deleteTodo, CompleteTodo, updateTodo} = useTodo
+  const {deleteTodo, CompleteTodo, updateTodo} = useTodo()
 
 
   const editTodo = () => {
@@ -28,14 +28,14 @@ function TodoItem({ todo }) {
         type="checkbox"
         className="cursor-pointer"
         checked={todo.completed}
-        onChange={updateTodo}
+        onChange={toggleCompleted}
       />
       <input
         type="text"
         className={`border outline-none w-full bg-transparent rounded-lg ${
           isTodoEditable ? "border-black/10 px-2" : "border-transparent"
         } ${todo.completed ? "line-through" : ""}`}
-        value={todoMsg}
+        value={TodoMsg}
         onChange={(e) => setTodoMsg(e.target.value)}
         readOnly={!isTodoEditable}
       />
@@ -47,7 +47,7 @@ function TodoItem({ todo }) {
 
           if (isTodoEditable) {
             editTodo();
-          } else setIsTodoEditable((prev) => !prev);
+          } else setisTodoEditable((prev) => !prev);
         }}
         disabled={todo.completed}
       >
