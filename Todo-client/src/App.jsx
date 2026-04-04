@@ -1,6 +1,6 @@
 import React from "react";
 import { TodoProvider } from "./Context/ContextTodo";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const [todos, settodos] = useState([])
@@ -20,6 +20,18 @@ function App() {
   const CompleteTodo = (id) => {
     settodos((prev) => prev.map((prevTodo) => (prevTodo === id ? {...prevTodo, Complete: !prevTodo.Complete} : prevTodo)))
   }
+
+  const useEffect(() => {
+    const todos = JSON.parse(localStorage.getItem("Todos"))
+
+    if (todos && todos.length > 0)
+      settodos(todos)
+  }, [])
+
+  const useEffect(() => {
+    (localStorage.setItem("Todos", JSON.stringify(todos)))
+  }, [todos])
+  
 
   return (
     
