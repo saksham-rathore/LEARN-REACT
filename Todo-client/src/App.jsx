@@ -5,7 +5,10 @@ import TodoForm from "./Components/TodoForm";
 import TodoItem from "./Components/TodoItem";
 
 function App() {
-  const [todos, settodos] = useState([])
+  const [todos, settodos] = useState(() => {
+    const saved = JSON.parse(localStorage.getItem("Todos"))
+    return (saved && saved.length > 0) ? saved : []
+  })
 
   const addTodo = (Todo) => {
     settodos((prev) => [{id: Date.now(), ...Todo} ,...prev])
@@ -24,13 +27,6 @@ function App() {
   }
 
   useEffect(() => {
-    const todos = JSON.parse(localStorage.getItem("Todos"))
-
-    if (todos && todos.length > 0)
-      settodos(todos)
-  }, [])
-
-  useEffect(() => {
     localStorage.setItem("Todos", JSON.stringify(todos))
   }, [todos])
 
@@ -47,12 +43,12 @@ function App() {
             <div key={Todo.id} className="w-full">
               <TodoItem todo={Todo} />
             </div>
-          )}
+          ))}
         </div>
       </div>
     </div>
     </TodoProvider>
   );
-}
+};
 
 export default App;
