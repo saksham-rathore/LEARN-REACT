@@ -16,7 +16,6 @@ function TodoForm() {
     setTodo("")
   }
 
-
   return (
     <form className="flex">
       <input
